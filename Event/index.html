@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="1.css">
+
+</head>
+<body>
+    <h1>task1</h1>
+    <ul id="list">
+        <li>This pc
+            <ul>
+                <li>Local Disk
+                    <ul>
+                        <li>Prog files</li>
+                        <li>Users</li>
+                        <li>Windows</li>
+                    </ul>
+                </li>
+                <li>Local Disk
+                    <ul>
+                        <li>Prog files</li>
+                        <li>Users</li>
+                        <li>Windows</li>
+                    </ul>
+                </li>
+                <li>Local Disk
+                
+                </li>
+            </ul>
+            
+        </li>
+
+    </ul>
+    <h1>task2</h1>
+
+    <div class="text unselectable">
+        <ol>
+          <li> "JavaScript for Kids: A Playful Introduction to Programming" by Nick Morgan</li>
+          <li>"Eloquent JavaScript: A Modern Introduction to Programming" by Marijn Haverbeke</li>
+          <li> "JavaScript: The Good Parts" by Douglas Crockford</li>
+          <li>. "You Don't Know JS" by Kyle Simpson</li>
+          <li> "Programming JavaScript Applications: Robust Web Architecture with Node, HTML5, and Modern JS Libraries" by Eric Elliott</li>
+          <li> "Effective JavaScript: 68 Specific Ways to Harness the Power of JavaScript" by David Herman</li>
+          <li> "JavaScript: The Definitive Guide" by David Flanagan</li>
+        </ol>
+      </div>
+      
+
+
+    <script>
+       //task1
+        var listItems = document.querySelectorAll('#list li');
+        
+        
+        listItems.forEach(function(item) {
+          
+            item.addEventListener('mouseover', function(e) {
+                e.stopPropagation()
+                e.currentTarget.classList.add('bold');
+            });
+
+           
+            item.addEventListener('mouseleave', function(e) {
+                e.currentTarget.classList.remove('bold');
+                e.stopPropagation()
+            });
+
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var nestedList = e.currentTarget.querySelector('ul');
+                if (nestedList) {
+                    nestedList.classList.toggle('collapsed');
+                }
+            });
+        });
+
+
+
+            //task2
+            let isSelected=0;
+            var listItems2 = document.querySelectorAll('.text li');
+            document.body.addEventListener("keydown", function(e) {
+                    if (e.ctrlKey) {
+                    isSelected = 1;
+                    }
+                    else if(e.shiftKey){
+                        isSelected=3;
+                    }
+                });
+
+                document.body.addEventListener("keyup", function(e) {
+                    if (e.keyCode == 17) { 
+                    isSelected = 0;
+                         
+                    }
+                    else if(e.keyCode==16){
+                        isSelected=0;   
+                    }
+                });
+
+                
+                let buffer;
+            listItems2.forEach(function(item) {
+               
+                item.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                   
+                    if(isSelected==0){
+                        listItems2.forEach(function(item) {
+                            item.classList.remove('selected')
+                        });
+                        e.currentTarget.classList.toggle('selected')
+                    }
+                    else if(isSelected==1){
+                        listItems2.entries
+                        e.currentTarget.classList.toggle('selected')
+                        buffer=e.currentTarget;
+                    }
+                    else{
+                       alert(listItems2.indexOf(buffer));
+                        listItems2.forEach(function(item) {
+                            
+                            if(item.classList==e.currentTarget.classList){
+                                
+                            }
+                        });
+                    }
+                });
+             });   
+
+
+
+
+
+
+    </script>
+
+
+</body>
+</html>

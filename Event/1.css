@@ -1,0 +1,26 @@
+.bold{
+    font-weight: 1000;
+    cursor: pointer;
+}
+.bold ul{
+    font-weight: normal;
+}
+
+.collapsed {
+    display: none;
+}
+
+
+.text ol li {
+    cursor: pointer;
+}
+.selected{
+
+    background-color:#ffa984 ;
+}
+.unselectable {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }

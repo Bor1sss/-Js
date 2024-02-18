@@ -78,7 +78,7 @@ switch (thisMonth.getDay()) {
       break;
   }
 
-for(let i=0; i<6 ; i++){
+for(let i=0; i<7 ; i++){
     for(let j=0; j<7; j++){
         if(i==0){
             let YellowBox = document.createElement("div");
@@ -111,6 +111,7 @@ for(let i=0; i<6 ; i++){
 
 
             if(thisMonth.getDate()==date.getDate()){
+            
                 box.style.color="aqua";
                 box.style.fontWeight="1000";
             }
