@@ -8,6 +8,15 @@
 
 </head>
 <body>
+    <div id="box">
+
+        <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque reiciendis aliquam eum nisi quia maiores recusandae et dignissimos. Ratione sit veritatis rem ipsam magnam, rerum repellendus cumque voluptas? Tenetur, eaque.
+            
+        </p>
+        <div id="Triangle"></div>
+      </div>
+
     <h1>task1</h1>
     <ul id="list">
         <li>This pc
@@ -47,6 +56,11 @@
           <li> "JavaScript: The Definitive Guide" by David Flanagan</li>
         </ol>
       </div>
+      
+
+  
+
+
       
 
 
@@ -114,28 +128,71 @@
                             item.classList.remove('selected')
                         });
                         e.currentTarget.classList.toggle('selected')
+                        buffer=e.currentTarget;
                     }
                     else if(isSelected==1){
-                        listItems2.entries
+                       
                         e.currentTarget.classList.toggle('selected')
                         buffer=e.currentTarget;
                     }
                     else{
-                       alert(listItems2.indexOf(buffer));
                         listItems2.forEach(function(item) {
-                            
-                            if(item.classList==e.currentTarget.classList){
-                                
-                            }
+                            item.classList.remove('selected')
                         });
+                       let flag=0;
+                    let k=0;
+                       let z=0
+                        while(flag!=2){
+                            if(listItems2[z]==e.currentTarget||listItems2[z]==buffer){
+                                
+                                flag++;
+                            }
+                            
+                            if(flag>=1){
+                                listItems2[z].classList.toggle('selected')
+                            }
+                            z++;
+
+                            
+
+                            k++
+                            if(k==50){
+                                break;
+                            }
+                        }
                     }
                 });
              });   
 
 
+             //task3
+             let flag = false, X, Y;
 
+             let box1 = document.getElementById("box");
+             let tr = document.getElementById("Triangle");
+        
+             tr.addEventListener("mousedown", DownHandler);
+             tr.addEventListener("mouseup", UpHandler);
+             document.body.addEventListener("mousemove", MoveHandler);
 
+             function DownHandler(ev) {
+                flag = true;
+                X = ev.offsetX;
+                Y = ev.offsetY;
+            }
+            function UpHandler(ev) {
+                flag = false;
+            }
+            function MoveHandler(ev) {
+                if (flag) {
+                    console.log(X);
+                    box1.style.width = ev.clientX  + "px";
+                    box1.style.height = ev.clientY  + "px";
+                }
+            }
+            
 
+        
 
     </script>
 
