@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <div>
+        <input name="v" type="radio" id="addRadio">добавить новый элемент в конец списка<input type="text" id="add">
+    </div>
+    <div>
+        <input name="v" type="radio" id="insertRadio">вставить новый элемент списка в заданную позицию;<input type="text" id="insert">
+    </div>
+    <div>
+        <input name="v" type="radio" id="changeRadio">изменить текст элемента списка;<input type="text" id="change">
+    </div>
+    <div>
+        <input name="v" type="radio" id="nestedRadio">добавить вложенный список<input type="text" id="nested">
+    </div>
+    <div>
+        <input name="v" type="radio" id="deleteRadio">удалить элемент списка<input type="text" id="delete">
+    </div>
+
+
+    <input type="button" id="addListButton" value="Добавить список "> 
+<div class="field">
+
+
+</div>
+    <script>
+    
+    var addButton = document.getElementById("addListButton");
+        var listsContainer = document.querySelector(".field");
+
+    addButton.addEventListener("click", function() {
+        var newList = document.createElement("ul");
+
+       
+
+        var listItem = document.createElement("li");
+        listItem.addEventListener("click",function(e){
+            var selectedRadio = document.querySelector('input[name="v"]:checked');
+
+            if (selectedRadio) {
+        
+                var actionType = selectedRadio.id;
+                var inputText = document.getElementById("add").value;
+
+                switch (actionType) {
+                    case "addRadio":
+                    var newList = document.createElement("ul");
+                        var listItem = document.createElement("li");
+                        listItem.textContent=inputText;
+                       newList.appendChild(listItem);
+                        e.currentTarget.appendChild(newList);
+                        break;
+                    case "insertRadio":
+                        // Вставить новый элемент списка в заданную позицию
+                        // Ваш код для этого действия
+                        break;
+                    case "changeRadio":
+                        // Изменить текст элемента списка
+                        // Ваш код для этого действия
+                        break;
+                    case "nestedRadio":
+                        // Добавить вложенный список
+                        // Ваш код для этого действия
+                        break;
+                    case "deleteRadio":
+                        // Удалить элемент списка
+                        // Ваш код для этого действия
+                        break;
+                }
+            }
+
+        });
+
+        listItem.textContent = "Элемент списка";
+        newList.appendChild(listItem);
+
+     
+        listsContainer.appendChild(newList);
+    });
+
+
+    </script>
+</body>
+</html>
