@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        .Text{
+            width: 500px;
+            background-color: bisque;
+            height: 250px;
+        }
+        textarea{
+            width: 500px;
+            height: auto;
+            height: 250px;
+        
+        }
+        .parent {
+ 
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(5, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        width: 150px;
+        background-color: blanchedalmond;
+        height: 500px;
+        margin-top: 50px;
+        margin-left: 10px;
+
+
+
+    }
+    .wrap{
+        display: flex;
+    }
+
+    </style>
+
+    <h3>
+        Press Ctrl+E for edit text. + left click <br>
+        Press Ctrl+S for save text.
+    </h3>
+
+ 
+    <div class="Text">
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eaque suscipit quam iure dolor at eligendi! Debitis quod assumenda et maxime dignissimos, vitae at nostrum odio provident, neque cumque iusto natus.
+    </div>
+
+
+    <table>
+        <thead>
+          <tr>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Возраст</th>
+            <th>Компания</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Иван</td>
+            <td>Иванов</td>
+            <td>25</td>
+            <td>Компания1</td>
+          </tr>
+          <tr>
+            <td>Мария</td>
+            <td>Петрова</td>
+            <td>30</td>
+            <td>Компания2</td>
+          </tr>
+          <tr>
+            <td>Александр</td>
+            <td>Сидоров</td>
+            <td>22</td>
+            <td>Компания3</td>
+          </tr>
+          <tr>
+            <td>Екатерина</td>
+            <td>Иванова</td>
+            <td>28</td>
+            <td>Компания4</td>
+          </tr>
+          <tr>
+            <td>Дмитрий</td>
+            <td>Петров</td>
+            <td>35</td>
+            <td>Компания5</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+    <script>
+        let ctrlE=false;
+        let ctrlS=false;
+
+
+
+        document.body.addEventListener("keydown",function(e){
+           
+            if (e.ctrlKey&&e.key=="e"||e.ctrlKey&&e.key=="у") {
+                e.preventDefault();
+                      ctrlE=true;
+                      
+            } 
+            else if(e.ctrlKey&&e.key=="s"||e.ctrlKey&&e.key=="ы"){
+                e.preventDefault(); 
+                      ctrlS=true;
+                      let TextInput= document.querySelector(".Text")
+                      let txt=document.querySelector('textarea');
+                    
+                      TextInput.innerHTML=txt.value;
+                      
+            }
+            
+
+
+        });
+
+                document.body.addEventListener("keyup", function(e) {
+                    if (e.keyCode == 17) { 
+                        ctrlE = false;
+                        ctrlS=false;
+                    }
+                })   
+
+        let TextInput= document.querySelector(".Text")
+    
+        TextInput.addEventListener("click",function(e){
+            if(ctrlE){
+           
+           // e.currentTarget.innerHTML = '<textarea>' + e.currentTarget.innerText + '</textarea>';
+           let t=e.currentTarget.innerText;     
+           e.currentTarget.innerHTML='<textarea>'+'</textarea>';
+                
+                let txt=document.querySelector('textarea');
+                txt.value=t;
+            }
+        })
+      
+
+
+
+        //task2
+
+        let head = document.querySelectorAll("table thead tr th");
+        let Sort1 = document.querySelectorAll("table tbody tr td");
+        let q=["Name","Surname","Age","Company"];
+        let i=0;
+        Sort1.forEach(item=>{
+            item.classList.add(q[i])
+            i++;
+            if(i==4){
+                i=0;
+            }
+
+        })
+
+
+        let SortName = document.querySelectorAll(".Name");
+      
+
+        let Surname = document.querySelectorAll(".Surname");
+        let Age = document.querySelectorAll(".Age");
+        let Company = document.querySelectorAll(".Company");
+
+        let allElementsArray = Array.from(SortName).map((element, index) => [element.innerText, Surname[index].innerText, Age[index].innerText, Company[index].innerText]);
+
+       
+
+        let ASC=true;
+        head.forEach(item=>{
+            item.addEventListener("click",function(e){
+
+                switch(e.currentTarget.innerText){
+                    case "Имя":{
+                 
+                   
+                    let sortedElements;
+                    
+                    if(ASC){
+                   
+                            sortedElements = Array.from(allElementsArray).sort((a, b) => {
+                                return a[0].localeCompare(b[0]);
+                            });
+                
+                            ASC=false;
+
+
+                    }
+                    else{   
+
+                        sortedElements = Array.from(allElementsArray).sort((a, b) => {
+                        return b[0].localeCompare(a[0]);
+                        
+
+                    });
+
+                        ASC=true;
+                    }
+                        let i=0;
+                        
+                        let bugFix = sortedElements.map(item =>item);
+
+
+                    for(let i=0;i<SortName.length;i++){
+                        SortName[i].innerText=bugFix[i][0];
+                        Surname[i].innerText=bugFix[i][1];
+                        Age[i].innerText=bugFix[i][2];
+                        Company[i].innerText=bugFix[i][3];
+                    }
+
+
+
+                   
+                }
+                    
+                    
+                    break;
+                    case "Фамилия":
+                    {
+                 
+                   
+                                let sortedElements;
+                                
+                                if(ASC){
+                                
+                                        sortedElements = Array.from(allElementsArray).sort((a, b) => {
+                                            return a[1].localeCompare(b[1]);
+                                        });
+                            
+                                        ASC=false;
+
+
+                                }
+                                else{   
+
+                                    sortedElements = Array.from(allElementsArray).sort((a, b) => {
+                                    return b[1].localeCompare(a[1]);
+                                    
+
+                                });
+
+                                    ASC=true;
+                                }
+                                    let i=0;
+                                    
+                                    let bugFix = sortedElements.map(item =>item);
+
+
+                                for(let i=0;i<SortName.length;i++){
+                                    SortName[i].innerText=bugFix[i][0];
+                                    Surname[i].innerText=bugFix[i][1];
+                                    Age[i].innerText=bugFix[i][2];
+                                    Company[i].innerText=bugFix[i][3];
+                                }
+
+
+
+                                
+                            }
+                    break;
+                    case "Возраст":
+                        
+                    {
+                 
+                   
+                 let sortedElements;
+                 
+                 if(ASC){
+                 
+                         sortedElements = Array.from(allElementsArray).sort((a, b) => {
+                             return a[2].localeCompare(b[2]);
+                         });
+             
+                         ASC=false;
+
+
+                 }
+                 else{   
+
+                     sortedElements = Array.from(allElementsArray).sort((a, b) => {
+                     return b[2].localeCompare(a[2]);
+                     
+
+                 });
+
+                     ASC=true;
+                 }
+                     let i=0;
+                     
+                     let bugFix = sortedElements.map(item =>item);
+
+
+                 for(let i=0;i<SortName.length;i++){
+                     SortName[i].innerText=bugFix[i][0];
+                     Surname[i].innerText=bugFix[i][1];
+                     Age[i].innerText=bugFix[i][2];
+                     Company[i].innerText=bugFix[i][3];
+                 }
+
+
+
+                 
+             }
+                    
+                    break;
+                    case "Компания":
+                        
+                    
+                    {
+                 
+                   
+                 let sortedElements;
+                 
+                 if(ASC){
+                 
+                         sortedElements = Array.from(allElementsArray).sort((a, b) => {
+                             return a[3].localeCompare(b[3]);
+                         });
+             
+                         ASC=false;
+
+
+                 }
+                 else{   
+
+                     sortedElements = Array.from(allElementsArray).sort((a, b) => {
+                     return b[3].localeCompare(a[3]);
+                     
+
+                 });
+
+                     ASC=true;
+                 }
+                     let i=0;
+                     
+                     let bugFix = sortedElements.map(item =>item);
+
+
+                 for(let i=0;i<SortName.length;i++){
+                     SortName[i].innerText=bugFix[i][0];
+                     Surname[i].innerText=bugFix[i][1];
+                     Age[i].innerText=bugFix[i][2];
+                     Company[i].innerText=bugFix[i][3];
+                 }
+
+
+
+                 
+             }
+                    
+                    
+                    break;
+
+                }
+              
+            });
+        })
+
+
+
+
+
+
+    </script>
+</body>
+</html>

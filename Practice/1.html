@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head> 
+<body>
+    <style>
+        .innerText{
+            display: none;
+            background-color:#b5dce9;
+            width: 500px;
+        }
+
+        .show{
+            display: block;
+        }
+        .head{
+            display: flex;
+       
+           
+        }
+        .outerText{
+            width: 500px;
+            
+            background-color: #518cbb;
+            color: white;
+        }
+
+    </style>
+        <div>
+            <h2>Enter your name (name can't bcontain digits)</h2>
+        <input type="text" id="Textbox" style="margin-bottom: 100px;">
+    
+       
+    </div>
+
+    <div class="head">
+        <div class="outerText">
+        <h2>What is Lorem ipsum</h2>
+        <div class="innerText">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas laborum maiores, et assumenda mollitia aspernatur quia possimus molestiae labore amet magnam corporis ut optio neque deserunt natus dolor iste cum!
+            </p>
+        </div>
+        </div>
+       
+    </div>
+    <div class="head">
+        <div class="outerText">
+            <h2>What is Lorem ipsum</h2>
+            <div class="innerText">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas laborum maiores, et assumenda mollitia aspernatur quia possimus molestiae labore amet magnam corporis ut optio neque deserunt natus dolor iste cum!
+                </p>
+            </div>
+            </div>
+     
+    </div>
+   
+    <div class="head">
+        <div class="outerText">
+            <h2>What is Lorem ipsum</h2>
+            <div class="innerText">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas laborum maiores, et assumenda mollitia aspernatur quia possimus molestiae labore amet magnam corporis ut optio neque deserunt natus dolor iste cum!
+                </p>
+            </div>
+            </div>
+     
+    </div>
+
+    <script>
+
+        let input=document.getElementById("Textbox");
+        
+        input.addEventListener("keypress",function(e){
+           
+          if(e.key>=0&&e.key<=9&&e.key!=" "){
+            e.preventDefault();
+          }
+
+        })
+
+
+        let outer=document.querySelectorAll(".outerText");
+        outer.forEach(item => {
+            
+            item.addEventListener("click",function(e){
+                var All = document.querySelectorAll('.innerText');
+                All.forEach(item2=>{
+                    item2.classList.remove('show');
+                })
+                e.stopPropagation();
+                var nestedList = e.currentTarget.querySelector('.innerText');
+                if (nestedList) {
+                    nestedList.classList.toggle('show');
+                }
+            })
+        });
+
+    </script>
+</body>
+</html>
