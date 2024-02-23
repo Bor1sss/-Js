@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    ul li{
+        cursor: pointer;
+    }
+</style>
 <body>
 
 
@@ -12,16 +17,16 @@
         <input name="v" type="radio" id="addRadio">добавить новый элемент в конец списка<input type="text" id="add">
     </div>
     <div>
-        <input name="v" type="radio" id="insertRadio">вставить новый элемент списка в заданную позицию;<input type="text" id="insert">
+        <input name="v" type="radio" id="insertRadio">вставить новый элемент списка в заданную позицию;
     </div>
     <div>
-        <input name="v" type="radio" id="changeRadio">изменить текст элемента списка;<input type="text" id="change">
+        <input name="v" type="radio" id="changeRadio">изменить текст элемента списка;
     </div>
     <div>
-        <input name="v" type="radio" id="nestedRadio">добавить вложенный список<input type="text" id="nested">
+        <input name="v" type="radio" id="nestedRadio">добавить вложенный список
     </div>
     <div>
-        <input name="v" type="radio" id="deleteRadio">удалить элемент списка<input type="text" id="delete">
+        <input name="v" type="radio" id="deleteRadio">удалить элемент списка
     </div>
 
 
@@ -51,27 +56,40 @@
 
                 switch (actionType) {
                     case "addRadio":
-                    var newList = document.createElement("ul");
+                        var newList = document.createElement("ul");
                         var listItem = document.createElement("li");
-                        listItem.textContent=inputText;
-                       newList.appendChild(listItem);
-                        e.currentTarget.appendChild(newList);
+
+                         newList.appendChild(listItem);
+                         listItem.innerText=inputText;
+                         e.currentTarget.appendChild(newList);
                         break;
                     case "insertRadio":
-                        // Вставить новый элемент списка в заданную позицию
-                        // Ваш код для этого действия
+                        e.stopPropagation();
+                        var listItem = document.createElement("li");
+                         listItem.innerText=inputText;
+                        
+                        var parent = e.target.parentNode;
+                        var index = Array.prototype.indexOf.call(parent.children, e.target);
+                        parent.insertBefore(listItem, parent.children[index]);
+
+
                         break;
                     case "changeRadio":
-                        // Изменить текст элемента списка
-                        // Ваш код для этого действия
+                        e.stopPropagation();
+                        e.target.innerText=inputText;
                         break;
                     case "nestedRadio":
-                        // Добавить вложенный список
-                        // Ваш код для этого действия
+                        e.stopPropagation();
+                        var newList = document.createElement("ul");
+                        var listItem = document.createElement("li");
+
+                         newList.appendChild(listItem);
+                         listItem.innerText=inputText;
+                         e.target.appendChild(newList);
                         break;
                     case "deleteRadio":
-                        // Удалить элемент списка
-                        // Ваш код для этого действия
+                        e.stopPropagation();
+                        e.target.remove();
                         break;
                 }
             }
@@ -81,7 +99,7 @@
         listItem.textContent = "Элемент списка";
         newList.appendChild(listItem);
 
-     
+        
         listsContainer.appendChild(newList);
     });
 
