@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+</head>
+<body>
+
+<form id="myForm">
+    <label for="login">Логин:</label>
+    <input type="text" id="login" name="login" required>
+
+    <br>
+
+    <label for="password">Пароль:</label>
+    <input type="password" id="password" name="password" required>
+
+    <br>
+
+    <label for="confirm">Подтвердите пароль:</label>
+    <input type="password" id="confirm" name="confirm" required>
+
+    <br>
+
+    <label for="fullname">Полное имя:</label>
+    <input type="text" id="fullname" name="fullname" required>
+
+    <br>
+
+    <label>Пол:</label>
+    <input type="radio" id="male" name="gender" value="male" checked>
+    <label for="male">Мужской</label>
+    <input type="radio" id="female" name="gender" value="female">
+    <label for="female">Женский</label>
+
+    <br>
+
+    <label for="specialization">Специализация:</label>
+    <select id="specialization" name="specialization">
+        <option value="specialization1">Специализация 1</option>
+        <option value="specialization2">Специализация 2</option>
+        <option value="specialization3">Специализация 3</option>
+    </select>
+
+    <br>
+
+    <label for="position">Должность:</label>
+    <input type="checkbox" value="Design">Дизайн
+    <input type="checkbox" value="Admin">Администрирование
+    <input type="checkbox" value="Prog">Прога
+
+    <br>
+
+    <button type="button" onclick="validation()">Зарегистрироваться</button>
+    <input type="reset" value="сброс">
+
+
+    <input type="submit" id="invis" style="display: none;">
+</form>
+
+
+
+    <script>
+
+        function validation(){
+
+
+           
+            var login = document.getElementById('login').value;
+            var password = document.getElementById('password').value;
+            var confirm = document.getElementById('confirm').value;
+            var fullname = document.getElementById('fullname').value;
+            var gender = document.querySelector('input[name="gender"]:checked');
+            var specialization = document.getElementById('specialization').value;
+
+            var position = document.querySelectorAll('input[type="checkbox"]:checked')
+   
+
+            
+            if (login === '' || password === '' || confirm === '' || fullname === '' || gender === null || specialization === ''||position.length==0 ) {
+                alert('Пожалуйста, заполните все поля формы.');
+                return false;
+            }
+
+            
+            if (password.length < 3 || password.length > 10) {
+                alert('Длина пароля должна быть от 3 до 10 символов.');
+                return false;
+            }
+
+            if(password!=confirm){
+                alert('Подтвердите пароль не совпадает');
+                return false;
+            }
+
+           //let but=document.getElementById("invis").click();
+
+           CreateData(login,password,confirm,fullname,gender,specialization,position)
+        }
+        function CreateData(login,password,confirm,fullname,gender,specialization,position){
+            document.getElementById("myForm").style.display="none";
+                    var resultDiv = document.createElement("div");
+
+                  
+                    resultDiv.innerHTML = "Логин: " + login + "<br>" +
+                                        "Пароль: " + password + "<br>" +
+                                        "Подтверждение: " + confirm + "<br>" +
+                                        "Полное имя: " + fullname + "<br>" +
+                                        "Пол: " + (gender.value) + "<br>" +
+                                        "Специализация: " + specialization + "<br>" +
+                                        "Должность: ";
+
+                    
+                    for (var i = 0; i < position.length; i++) {
+                        resultDiv.innerHTML += position[i].value + " ";
+                    }
+
+                 
+                    document.body.appendChild(resultDiv);
+
+
+
+        }
+        
+
+
+
+
+
+
+
+        
+    </script>
+</body>
+</html>
