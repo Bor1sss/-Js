@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .in{
+            display: flex;
+            flex-direction: column;
+            width: 250px;
+
+        }
+    </style>
+</head>
+<body>
+
+    <div class="in">
+        <input type="text" id="text">
+        <input type="color" id="color">
+        <input type="range" id="size">
+        <input type="button" id="draw" value="draw">
+        <input type="button" id="refil" value="refil">
+        <input type="button" id="ink" value="Show how much ink">
+    </div>
+    <div id="canvas">
+
+    </div>
+
+
+
+
+    <script>
+
+
+        let canvas=document.getElementById("canvas");
+        let text=document.getElementById("text")
+        let color=document.getElementById("color")
+
+        let draw=document.getElementById("draw");
+
+        
+        let ink=document.getElementById("ink");
+        
+        let size=document.getElementById("size");
+
+        let refil=document.getElementById("refil");
+
+
+        let inkBrush=new InkBrush(color.value,`${size.value}px`,100);
+
+        refil.addEventListener("click",function(e){
+            inkBrush.Refil();
+
+        })
+
+       
+
+
+
+        ink.addEventListener("click",function(e){
+            alert(`Your ink is `+ inkBrush.ShowInk())
+
+        })
+
+        draw.addEventListener("click",function(e){
+            
+            inkBrush=new InkBrush(color.value,`${size.value}px`,inkBrush.ShowInk())
+            
+            inkBrush.Print();
+          
+
+        })
+
+
+
+
+        function Brush(Color,size){
+            this.Color=Color
+         
+            this.size=size;
+
+
+
+        }
+        Brush.prototype.Print=function(){
+        
+
+            let drawing=document.createElement("p")
+            drawing.style.color=this.Color;
+            drawing.style.fontSize=this.size;
+            drawing.innerText=text.value;
+            canvas.innerHTML="";
+            canvas.appendChild(drawing);
+        }
+
+        function InkBrush(Color,size,quantity){
+            Brush.call(this,Color,size);
+            this.quantity=quantity;
+        }
+        
+        InkBrush.prototype._proto_=Brush.prototype;
+
+        InkBrush.prototype.ShowInk=function(){
+            return this.quantity;
+        }
+        InkBrush.prototype.Refil=function(){
+            alert("ink is refiled");
+            this.quantity=100;
+        }
+        InkBrush.prototype.Print=function(){
+          
+            let q=text.value.length;
+           
+            this.quantity=this.quantity-(q/2);
+            
+
+            if(this.quantity<0){
+                alert("run out of ink");
+               this.quantity=0;
+            }
+            else{
+                Brush.prototype.Print.call(this);
+            }
+
+        }
+
+
+
+
+
+    </script>
+</body>
+</html>
