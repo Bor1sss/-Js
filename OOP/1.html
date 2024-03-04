@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+
+    <script>
+        class ExtendedDate extends Date
+        {
+            constructor(date){
+                super(date)
+
+            }
+                print(){
+                    return `Day:${super.getDate()} Month:${super.getMonth()+1} Year:${super.getFullYear()}`;
+                }
+
+                isDatePass(){
+                   
+                    return (this<(new Date()))  
+
+
+                }
+
+                isLeapYear(){
+                    return (super.getFullYear() % 4 === 0 && super.getFullYear() % 100 !== 0) || (super.getFullYear() % 400 === 0);
+
+                }
+
+                getNextDay(){
+                    let nextDay=new ExtendedDate(this);
+                    (nextDay.setDate(this.getDate()+1))
+                    return nextDay;
+
+                }
+
+
+
+
+
+        }
+        
+        let date=new ExtendedDate("03/04/2023");
+
+        console.log(date.print());
+        console.log(date.isLeapYear())
+        console.log(date.isDatePass())
+        console.log(date.getNextDay())
+    </script>
+</body>
+</html>
