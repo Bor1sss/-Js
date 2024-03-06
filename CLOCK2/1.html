@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <canvas id='clock'></canvas>
+    <script>
+
+        let canvas = document.getElementById("clock");
+        let ctx = canvas.getContext('2d');
+        let ctx2 = canvas.getContext('2d');
+        let centerX=250;
+        let centerY = 250;
+        canvas.height = 580;
+        canvas.width = 640;
+
+
+
+        var angleTop = -(Math.PI)/2;
+      
+                
+       let time=new Date();
+        let hours=time.getHours();
+        let minutes=time.getMinutes();
+        let seconds=time.getSeconds();
+        let angle;
+        let x;
+        let y;
+
+
+        let xMinute;
+        let yMinute;
+
+        let xSecond;
+        let ySeconds;
+
+       
+       UpdateClock();
+        function UpdateClock(seconds,minutes,hours){
+          
+            ctx.beginPath();
+            ctx.fillStyle = 'red';
+           
+            ctx.arc(centerX+15, centerY-5, 245, 0, 2 * Math.PI, false);
+            
+            ctx.fill();
+            ctx.moveTo(centerX+10, centerY);
+            ctx.stroke(); 
+            lines();
+            UpdateSecond(seconds)
+            UpdateMinute(minutes)
+            UpdateHour(hours)
+
+            ctx.font = "24px Verdana";
+            ctx.strokeStyle = "blue";
+            ctx.lineWidth = 2;
+
+
+
+            for(let i=0,j=30;i<12;i++,j+=30){
+       
+
+                    angle = angleTop + (j*Math.PI/180)
+                
+                    x = centerX+10 + 233 * Math.cos(angle);
+                    y = centerY + 220 * Math.sin(angle);
+                    
+                    ctx.strokeText(`${i+1}`, x , y);
+
+         // ctx.beginPath();
+         // ctx.moveTo(centerX+10, centerY);
+         // ctx.lineTo(x, y);
+         // ctx.stroke(); 
+         // ctx.closePath();
+         
+    
+                    }
+        }
+        
+        let timer=setInterval(updateTimer,1000);
+        
+
+
+        function lines(){
+            for(let i=0;i<=60;i++){
+                angle = angleTop + (i*6*Math.PI/180)
+                x = centerX+10 + 5 * Math.cos(angle);
+                y = centerY + 5 * Math.sin(angle);
+                ctx.strokeStyle = "black";
+                ctx.beginPath();
+                ctx.moveTo(centerX+10, centerY);
+                ctx.lineTo(x, y);
+                ctx.stroke(); 
+                ctx.closePath();
+            }
+
+
+        }
+        function updateTimer() {
+          
+            seconds++;
+            if (seconds === 60) {
+                UpdateClock(seconds,minutes,hours);
+                seconds = 0;
+                minutes++;
+                UpdateClock(seconds,minutes,hours);
+                if (minutes === 60) {
+                    minutes = 0;
+                    hours++;
+                    UpdateClock(seconds,minutes,hours);
+                }
+            }
+            else{
+                UpdateClock(seconds,minutes,hours);
+            }
+           
+          
+            
+        
+        }
+        function UpdateSecond(seconds){
+          
+                angle = angleTop + (seconds*6*Math.PI/180)
+                x = centerX+10 + 233 * Math.cos(angle);
+                y = centerY + 220 * Math.sin(angle);
+                ctx.strokeStyle = "black";
+                ctx.beginPath();
+                ctx.moveTo(centerX+10, centerY);
+                ctx.lineTo(x, y);
+                ctx.stroke(); 
+                ctx.closePath();
+               
+                
+
+
+        }
+        function UpdateMinute(minutes){
+            angle = angleTop + (minutes*6*Math.PI/180)
+                x = centerX+10 + 200 * Math.cos(angle);
+                y = centerY + 200 * Math.sin(angle);
+                ctx.strokeStyle = "black";
+                ctx.beginPath();
+                ctx.moveTo(centerX+10, centerY);
+                ctx.lineTo(x-30, y-30);
+                ctx.stroke(); 
+                ctx.closePath();
+        }
+        function UpdateHour(hours){
+            angle = angleTop + (hours*30*Math.PI/180)
+                x = centerX+10 + 116 * Math.cos(angle);
+                y = centerY + 110 * Math.sin(angle);
+                ctx.strokeStyle = "black";
+                ctx.beginPath();
+                ctx.moveTo(centerX+10, centerY);
+                ctx.lineTo(x, y);
+                ctx.stroke(); 
+                ctx.closePath();
+        }
+
+    </script>
+</body>
+</html>
