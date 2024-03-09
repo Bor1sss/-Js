@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Регистрационная форма</title>
+    <style>
+        body {
+            font: 10pt Tahoma;
+        }
+
+        table.form_holder1 {
+            font: 10pt Tahoma;
+            background-color: #ddeeff;
+        }
+
+            table.form_holder1 thead {
+                background-color: #334466;
+                color: white;
+                font-weight: bold;
+            }
+    </style>
+</head>
+<body onload="docLoad()">
+    <form name="frm1">
+        <table class="form_holder1" cellspacing="1">
+            <thead>
+                <tr>
+                    <td colspan="2" align="center">Регистрация на сервере:</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Логин:</td>
+                    <td><input size="26" type="text" name="login" /></td>
+                </tr>
+                <tr>
+                    <td>Пароль:</td>
+                    <td><input size="26" type="password" name="text_password1" /></td>
+                </tr>
+                <tr>
+                    <td>Подтверждение:</td>
+                    <td><input size="26" type="password" name="text_password2" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <hr />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Полное имя (ФИО):</td>
+                    <td><input size="26" type="text" name="fullname" /></td>
+                </tr>
+                <tr valign="top">
+                    <td>Пол:</td>
+                    <td>
+                        <input type="radio" name="radio_gender" value="male" />мужской<br />
+                        <input type="radio" name="radio_gender" value="female" />женский
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <td>
+                        Иностранные<br />
+                        языки:
+                    </td>
+                    <td>
+                        <input type="checkbox" name="check_languages_1" />Английский<br />
+                        <input type="checkbox" name="check_languages_2" />Немецкий<br />
+                        <input type="checkbox" name="check_languages_3" />Французский<br />
+                        <input type="checkbox" name="check_languages_4" />Испанский<br />
+                        <input type="checkbox" name="check_languages_5" />Итальянский<br />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Сфера деятельности:</td>
+                    <td>
+                        <select name="list_work">
+                            <option value="0">обслуживание</option>
+                            <option value="1" selected>образование</option>
+                            <option value="2">медицина</option>
+                            <option value="3">наука</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>e-mail:</td>
+                    <td><input size="26" type="text" name="e_mail" /></td>
+                </tr>
+                <tr valign="top">
+                    <td>
+                        Дополнительная<br />
+                        информация:
+                    </td>
+                    <td>
+                        <textarea name="text_info" cols="20" rows="5"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="button" value="Готово" onclick="btnClick()"/> <input type="reset" value="Сброс" onclick="delCookie()" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+
+    <script>
+
+
+
+function btnClick() {
+  
+
+                        if (frm1.login.value.length == 0 ||
+                        frm1.fullname.value.length == 0 ||
+                        frm1.radio_gender.value.length == 0 ||
+                    
+                        frm1.list_work.value.length == 0 ||
+                        frm1.e_mail.value.length == 0 ||
+                        frm1.text_info.value.length == 0) {
+                        alert("Не все поля заполнены!");
+                        return;
+                    }
+
+                    let expirationDate = new Date();
+                    expirationDate.setMonth(expirationDate.getMonth() + 6);
+            
+                    let checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+                    let checkedNames=[]
+                    checkboxes.forEach(item=>checkedNames.push(item.name))
+                 
+               
+
+
+            document.cookie = "login=" + encodeURIComponent(frm1.login.value) + ";path=/;expires=" + expirationDate.toUTCString() + ";";
+            document.cookie = "fullname=" + encodeURIComponent(frm1.fullname.value) + ";path=/;expires=" + expirationDate.toUTCString() + ";";
+            document.cookie = "gender=" + encodeURIComponent(frm1.radio_gender.value) + ";path=/;expires=" + expirationDate.toUTCString() + ";";
+            document.cookie = "lang=" + encodeURIComponent((checkedNames)) + ";path=/;expires=" + expirationDate.toUTCString() + ";";
+            document.cookie = "list_work=" + encodeURIComponent(frm1.list_work.value) + ";path=/;expires=" + expirationDate.toUTCString() + ";";
+            document.cookie = "e_mail=" + encodeURIComponent(frm1.e_mail.value) + ";path=/;expires=" + expirationDate.toUTCString() + ";";
+            document.cookie = "text_info=" + encodeURIComponent(frm1.text_info.value) + ";path=/;expires=" + expirationDate.toUTCString() + ";";
+
+            document.cookie = "pass=" + encodeURIComponent(frm1.text_password1.value) + ";path=/;expires=" + expirationDate.toUTCString() + ";";
+
+            alert("Данные сохранены!");
+        }
+        function docLoad() {
+            let str = document.cookie;
+            
+            if (str.length == 0) {
+             
+                return;
+            }
+            let arr = str.split(';');
+            console.log(arr)
+            let login = arr[1].split('=')[1];
+            let fullname = arr[2].split('=')[1];
+            let radio_gender = arr[3].split('=')[1];
+            let lang = arr[4].split('=')[1];
+            let listwork = arr[5].split('=')[1];
+            let email = arr[6].split('=')[1];
+            let text_info = arr[7].split('=')[1];
+            let password = arr[8].split('=')[1];
+            
+            login = decodeURIComponent(login);
+            fullname = decodeURIComponent(fullname);
+            radio_gender = decodeURIComponent(radio_gender);
+            lang = decodeURIComponent(lang);
+            listwork = decodeURIComponent(listwork);
+            email = decodeURIComponent(email);
+            text_info = decodeURIComponent(text_info);
+            password = decodeURIComponent(password);
+
+            frm1.login.value = login
+            frm1.fullname.value = fullname
+            frm1.radio_gender.value = radio_gender
+            let ch= document.querySelectorAll('input[type="checkbox"]')
+
+            let lSplit=lang.split(",")
+            ch.forEach(item=>{
+                lSplit.forEach(sp=>{
+
+                   if(item.name==sp){
+                        item.checked=true;
+                   }
+
+                })
+                
+            })
+
+            frm1.list_work.value = listwork
+            frm1.e_mail.value =email
+            frm1.text_info.value =text_info
+            frm1.text_password1.value=password;
+        }
+        function delCookie() {
+            
+            document.cookie = "login="    +";path=/;expires="+";";
+            document.cookie = "fullname=" +";path=/;expires="+";";
+            document.cookie = "gender="   +";path=/;expires="+";";
+            document.cookie = "language=" +";path=/;expires="+";";
+            document.cookie = "lang=" +";path=/;expires="+";";
+            document.cookie = "list_work="+";path=/;expires="+";";
+            document.cookie = "e_mail="   +";path=/;expires="+";";
+            document.cookie = "text_info="+";path=/;expires=;";
+            alert("Cookie успешно удалён!");
+        }
+    </script>
+</body>
+</html>
