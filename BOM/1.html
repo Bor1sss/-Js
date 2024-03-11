@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width" initial-scale="1.0">
+		<title>Галерея</title>
+		
+		<link rel="stylesheet" href="style.css"/>
+	
+	</head>
+	<body>
+		<img class="topimg" src="IMG/TITLE.JPG">
+		<div class="imgcontainer">
+			<div class="image" id="0" style="background:url(textures/small/P0.JPG);background-size: cover; width: 500px;"></div>
+			<div class="image" id="1" style="background:url(textures/small/P1.JPG);background-size: cover;width: 500px"></div>
+			<div class="image" id="2" style="background:url(textures/small/P2.JPG);background-size: cover; width: 500px"></div>
+			<div class="image" id="3" style="background:url(textures/small/P3.JPG);background-size: cover; width: 500px"></div>
+			<div class="image" id="4" style="background:url(textures/small/P4.JPG);background-size: cover; width: 500px"></div>
+			<div class="image" id="5" style="background:url(textures/small/P5.JPG);background-size: cover; width: 500px"></div>
+			<div class="image" id="6" style="background:url(textures/small/P6.JPG);background-size: cover; width: 500px"></div>
+		</div>
+
+            <script>
+                let PopUp=null;
+                
+                let img = document.querySelectorAll(".image");
+                function openWin(index){
+
+                    let tempImage = new Image();
+                    tempImage.src=`textures/BIG/P${index}.JPG`;
+                    tempImage.onload = function () {
+                        if(PopUp==null){
+                        PopUp=window.open(
+                        "",
+                        "",
+                        `width=${tempImage.width}, height=${tempImage.height}, left=350, top=50, resizable=yes, menubar=yes, toolbar=yes, location=yes, scrollbars=yes`
+
+
+                        )
+                        PopUp.document.body.style.background = `url(textures/Big/P${index}.JPG)`;
+                        PopUp.document.body.style.backgroundRepeat="no-repeat"
+                        PopUp.document.body.style.backgroundSize = "cover";
+                        }
+                        else{
+                            PopUp.document.body.style.background = `url(textures/Big/P${index}.JPG)`;
+                        }
+                    }
+                    } 
+                img.forEach(function(image,index){
+                    image.addEventListener('click',function(){
+                        openWin(index);
+                    })
+                    image.addEventListener('mouseover',function(){
+                        info(index);
+                    })
+                })
+
+                function info(index){
+                    let tempImage = new Image();
+                    let str=`textures/BIG/P${index}.JPG`;
+                    tempImage.src=str;
+                    tempImage.onload = function () {
+                    window.location.href = "#image=" + str + "&width=" + tempImage.width + "&height=" + tempImage.height;
+                    }
+                }
+              
+
+
+            </script>
+ 
+	</body>
+
+
+
+</html>
