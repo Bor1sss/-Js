@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    div{
+        display: flex;
+        width: 50%;
+        margin:20% auto;
+        flex-direction: column;
+        padding: 20px;
+        border: 2px solid darkgoldenrod;
+    }
+    h3{
+        align-self: center;
+    }
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: bisque;
+    }
+    button{
+        margin-top: 10px;
+        height: 30px;
+    }
+    form{
+        display: flex;
+        width: 100%;
+        
+        flex-direction: column;
+ 
+ 
+    }
+    span{
+        display: none;
+        color: red;
+        font-weight: 1000;
+    }
+    #email2{
+        display: inline;
+        border: none;
+        padding: 10px;
+        color: red;
+    }
+</style>
+<body onload="onLOAD()">
+    
+    <div ><h3>Hello,<div id="email2"></div><a onclick="clearData()" href="1.html">exit</a></h3>
+        <form name="form2">
+        <p>First:</p>
+        <input name="First" type="text" required> 
+    
+    
+        <p>Last</p>
+        <input id="Last" name="Last" type="text" required> 
+    
+        <p>Year</p>
+        <input id="Year" name="Year" type="date" required>
+            
+        <p>Gender</p>
+        <input id="Gender" name="Gender" type="text" list="default" required>
+        <datalist id="default">
+            <option value="male"></option>
+            <option value="female"></option>
+        </datalist>
+       
+
+
+        <p>Phone</p>
+        <input id="Phone" name="Phone" type="tel"  >
+        <p>Skype</p>
+        <input id="Skype" name="Skype" type="text" >
+        </form>   
+        <button onclick="btnClick()">Save</button>
+
+
+        <script>
+
+            function clearData(){
+                localStorage.removeItem("email");
+                localStorage.removeItem("password");
+            }
+
+            let emailSpan=document.getElementById("email2")
+            function onLOAD(){
+                console.log(localStorage.getItem("email"))
+                emailSpan.innerText=localStorage.getItem("email");
+            }
+
+
+
+
+
+            function btnClick(){
+            if(form2.First.value.length == 0 || 
+            form2.Last.value.length == 0 ||
+            form2.Year.value.length == 0||
+            form2.Gender.value.length == 0){
+                alert("Не все поля заполнены!");
+            }
+            else{
+                if(CheckYear()){
+                    if(CheckPassword()){
+                        if(CheckRepeat()){
+                            localStorage.setItem("email", form2.email.value);
+                            localStorage.setItem("password", form2.password.value);
+                            window.location.href="2.html"
+                        }
+                        else{
+                            alert("введины не правильно повтор")
+                        }
+                    }
+                    else{
+                        alert("incorrect password")
+                    }
+                }
+                else{
+                    alert("incorrect Year")
+                }
+            }
+        }
+
+
+        let input=document.body.querySelectorAll('input[type="text"]');
+
+        input.forEach(item=>item.addEventListener("keypress",function(e){
+           
+           if(e.key>=0&&e.key<=9&&e.key!=" "){
+             e.preventDefault();
+           }
+        }
+        ))
+        
+            
+ 
+   
+
+
+        function CheckName(){
+          
+      
+
+            if (form2.First.value>0&&form2.First.value<20) {
+               
+                return true;
+            } else {
+             
+                return false;
+              
+            }
+
+        }
+        function CheckLast(){
+            if (form2.Last.value>0&&form2.Last.value<20) {
+               
+               return true;
+           } else {
+            
+               return false;
+             
+           }
+        }
+        function CheckYear(){
+                
+                if (/^(19\d\d|20\d\d|24\d\d)$/.test(form2.Year.value)) {
+                    console.log("Год рождения верен.");
+                } else {
+                    console.log("Некорректный год рождения.");
+                }
+
+
+
+        }
+
+
+        </script>
+
+
+
+
+</body>
+</html>

@@ -29,23 +29,20 @@
                     let tempImage = new Image();
                     tempImage.src=`textures/BIG/P${index}.JPG`;
                     tempImage.onload = function () {
-                        if(PopUp==null){
-                        PopUp=window.open(
-                        "",
-                        "",
-                        `width=${tempImage.width}, height=${tempImage.height}, left=350, top=50, resizable=yes, menubar=yes, toolbar=yes, location=yes, scrollbars=yes`
 
 
-                        )
-                        PopUp.document.body.style.background = `url(textures/Big/P${index}.JPG)`;
-                        PopUp.document.body.style.backgroundRepeat="no-repeat"
-                        PopUp.document.body.style.backgroundSize = "cover";
+                        if(PopUp!=null){
+                            PopUp.close();
                         }
-                        else{
-                            PopUp.document.body.style.background = `url(textures/Big/P${index}.JPG)`;
-                        }
-                    }
+                        PopUp = window.open("2.html?" + index, "_blank", "width=" + tempImage.width + ",height=" + tempImage.height + ",scrollbars=no");
+                    
+                      
+                }
                     } 
+
+
+
+
                 img.forEach(function(image,index){
                     image.addEventListener('click',function(){
                         openWin(index);
@@ -60,7 +57,7 @@
                     let str=`textures/BIG/P${index}.JPG`;
                     tempImage.src=str;
                     tempImage.onload = function () {
-                    window.location.href = "#image=" + str + "&width=" + tempImage.width + "&height=" + tempImage.height;
+                        window.location.href = "#image=" + str + "&width=" + tempImage.width + "&height=" + tempImage.height;
                     }
                 }
               
