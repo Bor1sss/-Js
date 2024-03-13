@@ -37,19 +37,20 @@
         display: none;
         color: red;
         font-weight: 1000;
+        font-size: 12px;
     }
 </style>
 <body onload="onLOAD()">
     <div ><h3>Registration</h3>
     <form name="form1">
-    <p>Email:</p><span class="emailSpan">Не коректный email</span>
+    <p>Email:</p><span class="emailSpan">(Символы и буквы с цифрами) + @ (Символы). 2+ Символа</span>
     <input name="email" type="email" required> 
 
 
     <p>Password</p><span class="passwordSpan">Не коректный password</span>
     <input id="pass" name="password" type="password" required> 
 
-    <p>Repeat</p><span class="repeatSpan">Не коректный repeat</span>
+    <p>Repeat</p><span class="repeatSpan">Repeat!=password</span>
     <input id="repeat" name="repeat" type="password" required>
  
     </form>   
@@ -110,12 +111,15 @@
         function CheckEmail(){
           
       
+     
+
 
             if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(form1.email.value)) {
                 emailSpan.style.display="none";
                 return true;
             } else {
-                emailSpan.style.display="inline";
+                emailSpan.textContent = "Email адрес должен содержать только буквы (a-Z), цифры (0-9), и символы: точку (.), дефис (-), подчеркивание (_) и должен иметь корректный формат.";
+                emailSpan.style.display = "inline";
                 return false;
               
             }
@@ -126,6 +130,7 @@
                 passwordSpan.style.display="none";
                return true;
             } else {
+                passwordSpan.textContent = "Пароль должен содержать минимум одну строчную букву, одну заглавную букву, одну цифру и быть длиной не менее 6 символов.";
                 passwordSpan.style.display="inline";
                 return false;
             }

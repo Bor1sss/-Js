@@ -37,6 +37,7 @@
         display: none;
         color: red;
         font-weight: 1000;
+        font-size: 12px;
     }
     #email2{
         display: inline;
@@ -49,47 +50,111 @@
     
     <div ><h3>Hello,<div id="email2"></div><a onclick="clearData()" href="1.html">exit</a></h3>
         <form name="form2">
-        <p>First:</p>
+        <p>First:</p> <span class="fSpan">Слишком много символов </span>
         <input name="First" type="text" required> 
     
     
-        <p>Last</p>
+        <p>Last</p><span class="lSpan">Слишком много символов </span>
         <input id="Last" name="Last" type="text" required> 
     
-        <p>Year</p>
+        <p>Year</p><span class="ySpan">Слишком много символов </span>
         <input id="Year" name="Year" type="date" required>
             
-        <p>Gender</p>
+        <p>Gender</p><span class="gSpan">Слишком много символов </span>
         <input id="Gender" name="Gender" type="text" list="default" required>
         <datalist id="default">
             <option value="male"></option>
             <option value="female"></option>
+            <option value="other"></option>
         </datalist>
        
 
 
-        <p>Phone</p>
-        <input id="Phone" name="Phone" type="tel"  >
-        <p>Skype</p>
-        <input id="Skype" name="Skype" type="text" >
+        <p>Phone</p><span class="pSpan">Слишком много символов </span>
+        <input id="Phone" name="Phone" type="tel">
+        <p>Skype</p><span class="sSpan">Слишком много символов </span>
+        <input id="Skype" name="Skype" type="text">
         </form>   
         <button onclick="btnClick()">Save</button>
 
 
         <script>
 
+
+        let fSpan = document.body.querySelector(".fSpan")
+        let lSpan = document.body.querySelector(".lSpan")
+        let ySpan = document.body.querySelector(".ySpan")
+        let gSpan = document.body.querySelector(".gSpan")
+        let pSpan = document.body.querySelector(".pSpan")
+        let sSpan = document.body.querySelector(".sSpan")
+        
+        let First=document.querySelector('input[name="First"]');
+        First.addEventListener('focusout',CheckName);
+        let Last = document.querySelector('input[name="Last"]');
+        Last.addEventListener('focusout',CheckLast);
+        let Year=document.querySelector('input[name="Year"]');
+        Year.addEventListener('focusout',CheckYear);
+        let Gender=document.querySelector('input[name="Gender"]')
+        Gender.addEventListener('focusout',CheckGender);
+        let Phone=document.querySelector('input[name="Phone"]');
+        Phone.addEventListener('focusout',CheckPhone);
+        let Skype=document.querySelector('input[name="Skype"]')
+        Skype.addEventListener('focusout',CheckName);
+
+
+
+
+
             function clearData(){
                 localStorage.removeItem("email");
                 localStorage.removeItem("password");
+
+                    localStorage.removeItem("First");
+                    localStorage.removeItem("Last");
+                    localStorage.removeItem("Year");
+                    localStorage.removeItem("Gender");
+                    localStorage.removeItem("Phone");
+                    localStorage.removeItem("Skype");
+
             }
 
             let emailSpan=document.getElementById("email2")
             function onLOAD(){
-                console.log(localStorage.getItem("email"))
-                emailSpan.innerText=localStorage.getItem("email");
+                try{
+                    emailSpan.innerText=localStorage.getItem("email");
+                    First.value=localStorage.getItem("First");
+                    Last.value=localStorage.getItem("Last");
+                    Year.value=localStorage.getItem("Year");
+                    Gender.value=localStorage.getItem("Gender");
+                    Phone.value=localStorage.getItem("Phone");
+                    Skype.value=localStorage.getItem("Skype");
+
+                }
+                catch{
+
+                }
+                
+               
             }
 
 
+            function Save(){
+
+                localStorage.setItem("First", form2.First.value);
+                localStorage.setItem("Last", form2.Last.value);
+                localStorage.setItem("Year", form2.Year.value);
+                localStorage.setItem("Gender", form2.Gender.value);
+
+                if( CheckPhone()){
+                    localStorage.setItem("Phone", form2.Phone.value);
+                }
+                if(form2.Skype.value.length>0){
+                    localStorage.setItem("Skype", form2.Skype.value);
+                }
+            
+               
+               
+            }
 
 
 
@@ -100,16 +165,21 @@
             form2.Gender.value.length == 0){
                 alert("Не все поля заполнены!");
             }
+            
             else{
-                if(CheckYear()){
-                    if(CheckPassword()){
-                        if(CheckRepeat()){
-                            localStorage.setItem("email", form2.email.value);
-                            localStorage.setItem("password", form2.password.value);
-                            window.location.href="2.html"
-                        }
-                        else{
-                            alert("введины не правильно повтор")
+                if(CheckName()){
+                    if(CheckLast()){
+                        if(CheckYear()){
+                            if(CheckGender()){
+                                if(CheckPhone){
+                                    Save()
+
+                                }
+                            
+                            }
+                            else{
+                                alert("введины не правильно повтор")
+                            }
                         }
                     }
                     else{
@@ -127,7 +197,7 @@
 
         input.forEach(item=>item.addEventListener("keypress",function(e){
            
-           if(e.key>=0&&e.key<=9&&e.key!=" "){
+           if(this.id != "Skype" &&e.key>=0&&e.key<=9||e.key==" "){
              e.preventDefault();
            }
         }
@@ -138,40 +208,90 @@
    
 
 
-        function CheckName(){
-          
-      
+        function CheckName() {
+     
 
-            if (form2.First.value>0&&form2.First.value<20) {
-               
-                return true;
-            } else {
-             
-                return false;
-              
-            }
-
+        if (form2.First.value.length > 0 && form2.First.value.length < 20) {
+            fSpan.style.display = "none";
+            return true;
+        } else {
+            fSpan.textContent = "Имя должно содержать от 1 до 20 символов.";
+            fSpan.style.display = "inline";
+            return false;
         }
+        }
+
+
         function CheckLast(){
-            if (form2.Last.value>0&&form2.Last.value<20) {
-               
+            if (form2.Last.value.length>0&&form2.Last.value.length<20) {
+                lSpan.style.display="none";
                return true;
            } else {
-            
+                lSpan.textContent = "Фамилия должна содержать от 1 до 20 символов.";
+                lSpan.style.display="inline";
                return false;
              
            }
         }
+
         function CheckYear(){
+            const currentYear = new Date().getFullYear();
+            const birthYear = parseInt(form2.Year.value.trim(), 10);
+            if (isNaN(birthYear) || birthYear < 1900 || birthYear > currentYear) {
                 
-                if (/^(19\d\d|20\d\d|24\d\d)$/.test(form2.Year.value)) {
-                    console.log("Год рождения верен.");
-                } else {
-                    console.log("Некорректный год рождения.");
-                }
+                ySpan.textContent = "Год рождения должен быть не менее 1900 года. и не больше текущего";
+                ySpan.style.display="inline";
+                return false
+            } 
+            else {
+
+                ySpan.style.display="none";
+                return true;
+            }
 
 
 
+        }
+
+
+        function CheckGender(){
+            if (form2.Gender.value === "male" || form2.Gender.value === "female" || form2.Gender.value === "other") {
+                gSpan.style.display="none";
+                return true;
+            }
+            else{
+                gSpan.textContent = "Gender должен быть male female other";
+                gSpan.style.display="inline";
+                return false;
+            }
+        }
+
+        function CheckPhone(){
+            
+            if (form2.Phone.value === "") {
+                pSpan.style.display = "none";
+                return false;
+            }
+
+      
+
+
+            if (form2.Phone.value.length < 10 || form2.Phone.value.length > 12) {
+                    pSpan.textContent = "Номер телефона должен содержать от 10 до 12 цифр.";
+                    pSpan.style.display = "inline";
+                    return false;
+             }
+             else{
+                if (/^\d+$/.test(form2.Phone.value)) {
+                pSpan.style.display = "none";
+                return true;
+                  } 
+            else {
+                pSpan.textContent = "Номер телефона должен содержать только цифры.";
+                pSpan.style.display = "inline";
+                return false;
+            }
+             }
         }
 
 
