@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery-3.7.0.min.js"></script>
+</head>
+<style>
+    div{
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+<body>
+    
+    <div>
+    <h3>Random String Generator</h3>
+
+    <p>String should be <input id="num" type="number" style="width: 30px;"> long</p>
+
+    <p>
+        Which characters are allowed to occur in the strings?
+    </p>
+        
+        <p><input value="0" type="checkbox">Numeric digigts(0-9)</p>
+        <p><input value="1" type="checkbox">Uppercase letters (A-Z)</p>
+        <p> <input value="2" type="checkbox">Lowercase letters (a-z)</p>
+        <input id="Generate" type="button" style="width: 100px;" value="Generate">
+
+        <h4>Result</h4> <input type="text"  id="result" style="width: 250px;">
+    </div>
+
+    <script>
+            function getRandomInt(max) {
+                return Math.floor(Math.random() * max);
+                }
+                const digits = '0123456789';
+                const lowercaseLetters = 'abcdefghijklmnopqrstuvwxyz';
+                const uppercaseLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+                const Pattern=[digits,uppercaseLetters,lowercaseLetters]
+
+            $("#Generate").click(function(){
+                let kol=$("#num")[0].value;
+                let element= $(":input[type='checkbox']:checked");
+              
+                let values=[]
+                for(let i=0;i<element.length;i++){
+                    values.push(element[i].value)
+                }
+                let sym=" "
+                if(kol>0&&kol!=null&&values.length>0){
+                    for(let b=0;b<kol;b++){
+                    let x = getRandomInt(values.length)
+         
+                     sym += (Pattern[values[x]])[getRandomInt(Pattern[values[x]].length)]
+                    }
+                
+                $("#result")[0].value=sym
+
+                }
+            })
+
+
+    </script>
+</body>
+</html>

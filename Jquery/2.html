@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.7.0.min.js"></script>
+    <title>Document</title>
+    <style>
+        body, html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container{
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            background-color: black;
+        }
+        #left{
+            flex-basis: 250px;
+        
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #arrow{
+            flex-basis: 10px;
+            height: 100%;
+            background-color: #d7d7d7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        #right{
+            flex-basis: 100%;
+          
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .separator{
+            height: 10px;
+            width: 100%;
+            background-color: #d7d7d7;
+            cursor: n-resize;
+        }
+        .block{
+            width: 100%;
+            height: 100%;
+            min-height: 100px;
+        }
+        
+        #A{
+            background-color: #b5dce9;
+        
+        }
+        #B{
+            background-color: #ffbdc7;
+        }
+        #C{
+            background-color: #28b9b2;
+         
+        }
+        #D{
+            background-color: #ffa984;
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="left">
+            <div id="A" class="block"></div>
+            <div class="separator" id="left-sep"></div>
+            <div id="B" class="block"></div>
+        </div>
+        <div id="arrow">◀</div>
+        <div id="right">
+            <div id="C" class="block"></div>
+            <div class="separator" id="right-sep"></div>
+            <div id="D" class="block"></div>
+        </div>
+    </div>
+
+    <script>
+
+        let isDown=false;
+        let isLeft=false;
+        $("#right-sep",).mousedown(function(){
+            isDown=true;
+            isLeft=false;
+        })
+        $("#left-sep",).mousedown(function(){
+            isDown=true;
+            isLeft=true;
+        })
+        $("body").mousemove(function(e){
+         
+            if(isDown&&isLeft) {
+                let container = $("#left");
+                 let containerTop = container.offset().top;
+                    let containerHeight = container.height();
+                    let mouseY = event.pageY - containerTop;
+                    mouseY = Math.max(0, Math.min(mouseY, containerHeight));
+                    $("#A").height(mouseY);
+                    $("#B").height(containerHeight - mouseY);
+                }
+            else if(isDown&&!isLeft){
+                    let container = $("#right");
+                     let containerTop = container.offset().top;
+                    let containerHeight = container.height();
+                    let mouseY = event.pageY - containerTop;
+                    mouseY = Math.max(0, Math.min(mouseY, containerHeight));
+                    $("#C").height(mouseY);
+                    $("#D").height(containerHeight - mouseY);
+                }
+        })
+        $("body").mouseup(function(){
+            isDown=false;
+            isLeft=false;
+        })
+
+
+        let isWrap=false;
+        $("#arrow").click(function(){
+            if(isWrap){
+            $("#left").css("flex-basis","250px")
+            $(this).text('◀')
+            isWrap=false;
+            }
+            else{
+                $("#left").css("flex-basis","0px");
+                $(this).text('▶')
+                isWrap=true;
+            }
+        })
+    </script>
+</body>
+</html>
