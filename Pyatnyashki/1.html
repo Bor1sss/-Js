@@ -58,8 +58,12 @@
 
 
     <script>
+   
+
+    function Start(){
         let check=[null,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
         let arr=[null,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+
         function shuffle(array) {
              array.sort(() => Math.random() - 0.5);
         }
@@ -190,18 +194,24 @@
 
         
         function CheckWin(){
-            for(let i=0;i<boxes.length;i++){
-                if(boxes[i]==''){
-
-                }
-                else if(boxes[i].innerText!=check[i]){
+            for(let i=1;i<boxes.length;i++){
+                 if(boxes[i].innerText!=check[i]){
+                    if(boxes[i]!=""){
                     return false;
+                    }
                 }
+                
             }
-           alert("Win");
-        }
+            let isWin = confirm("WIN RESTART?");
+            if(isWin){
+                Start();
+            }
+            else{
 
- 
+            }
+        }
+    }
+    Start();
     </script>
 </body>
 </html>
