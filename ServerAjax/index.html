@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.7.0.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    
+
+
+
+    <h1>Общий тест</h1>
+
+    <form>
+        
+        <div id="timer">10:00</div>
+        <div id="boxQ">
+            
+
+        </div>
+        <div id="boxA">
+            
+
+        </div>
+       
+        <button id="Send">Start</button>
+    </form>
+
+
+    <script>
+
+function confirmRestart() {
+    return confirm("Хотите начать заново?");
+}
+let timerInterval;
+let seconds = 600;
+function updateTimer() {
+    seconds--;
+    let minutes = Math.floor(seconds / 60);
+    let remainingSeconds = seconds % 60;
+    let timeString = pad(minutes) + ":" + pad(remainingSeconds);
+    document.getElementById("timer").textContent = timeString;
+    if (seconds === 0) {
+        clearInterval(timerInterval); 
+        alert("Время вышло!");
+        if (confirmRestart()) { 
+            Restart();
+            seconds = 600; 
+            timerInterval = setInterval(updateTimer, 1000);
+          
+        }
+    }
+}
+
+
+
+function pad(val) {
+    return val < 10 ? "0" + val : val;
+}
+
+
+
+
+        let isStart=false;
+         let questNum=0;
+        $('#Send').click(function(e){
+            e.preventDefault();
+            GenerateNext();
+            questNum+=1;
+           
+            if(!isStart){
+                timerInterval= setInterval(updateTimer, 1000);
+                isStart=true;
+            }
+        })
+        
+        function Restart(){
+                Submit();
+                questNum=0;
+                GenerateNext();
+        }
+        let curAns;
+        let score=0;
+        function GenerateNext(){
+         
+
+            if(questNum!=0){
+                score+=Check();
+            }
+            
+            
+            if(questNum!=12){
+               
+                $.getJSON(`${questNum}.json`, function (data) {
+                curAns=data.Quest[0].correct;
+                let box=$('#boxQ');
+                    console.log(curAns);
+                    box[0].innerHTML=("<p>" + data.Quest[0].question +  "\t Вопрос \t"+ (questNum) + "</p>");
+                 for (var j = 0; j < data.Quest[0].options.length; j++) {
+                 box[0].innerHTML+=("<label><input type='checkbox' name='question" + questNum + "' value='" + j + "'>" + data.Quest[0].options[j] + "</label><br>");
+                 
+                }
+                $('#Send').text('Next');
+            });
+                
+            }
+            else{
+                Submit();
+                if(confirmRestart()){
+                       
+                        Restart();
+                }
+            }   
+
+
+
+           
+
+     
+
+    }
+
+    function Check(){
+            var ans = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+                let isCorrect=false;
+
+
+          
+                
+                if (Contain(ans,curAns)) {
+                    isCorrect=true;
+                } else {
+                    isCorrect=false;
+                }
+
+                if(isCorrect){
+                return 1;
+                }
+                else{
+                    return 0;
+                }
+
+
+        }
+
+    function Submit(){
+                alert("Вы набрали " + score + " из " + 12 + " баллов.");
+            }
+    function Contain(arrA, arrB) {
+                return arrA.length === arrB.length &&
+                    arrA.every(elementA => arrB.includes(elementA)) &&
+                    arrB.every(elementB => arrA.includes(elementB));
+            }
+
+
+
+
+    </script>
+</body>
+</html>

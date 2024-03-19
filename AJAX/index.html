@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.7.0.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    
+
+
+
+    <h1>Общий тест</h1>
+
+    <form>
+        
+
+        <div id="box">
+            
+
+        </div>
+       
+        <button id="Send">Start</button>
+    </form>
+
+
+    <script>
+        $(function () {
+            $('button').click(function () {
+                $('.box').load("1.json", function (responseText, textStatus, xmlHttpRequest) {
+                    alert(responseText); // Содержит ответ сервера
+                    alert(textStatus); // Содержит статус выполнения запроса
+                    alert(xmlHttpRequest.status); // Содержит объект XMLHttpRequest
+
+                    let status = xmlHttpRequest.status;//Содержит статусный код ответа HTTP, который пришел от сервера.
+                    if (status == 200)
+                        alert("Текст ответа: " + xmlHttpRequest.responseText);
+                    else if (status == 404)
+                        alert("Ресурс не найден");
+                    else
+                        alert(xmlHttpRequest.statusText);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
