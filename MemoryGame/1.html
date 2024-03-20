@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery-3.7.0.min.js">
+    </script>
+    <style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    
+    background-color: blanchedalmond;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.game-board {
+    width: 800px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, 1fr); 
+    grid-gap: 20px;
+}
+
+.card {
+    background-color: cadetblue;
+    border: 2px solid #f5f5f5;
+    border-radius: 5px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-size: cover;
+    
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.Black{
+    background-color: burlywood !important;
+    background-image: none !important;
+}
+.tCard{
+    background-color: transparent !important;
+    background-image: none !important;
+}
+
+@keyframes flipCard {
+    0% {
+        transform: perspective(400px) rotateY(0);
+    }
+    50% {
+        transform: perspective(400px) rotateY(90deg);
+    }
+    100% {
+        transform: perspective(400px) rotateY(180deg);
+    }
+}
+
+.card.flip {
+    animation: flipCard 0.5s ease;
+}
+
+
+@keyframes flipCard2 {
+    0% {
+        transform: perspective(400px) rotateY(0);
+    }
+    50% {
+        transform: perspective(400px) rotateY(90deg);
+    }
+    100% {
+        transform: perspective(400px) rotateY(180deg) scaleX(-1);;
+    }
+}
+
+.card.flip2 {
+    animation: flipCard2 0.5s ease;
+
+}
+
+    </style>
+</head>
+<body>
+    <h1>Memory Game</h1>
+
+    <div class="game-board">
+        <div class="card Black" data-card="1"></div>
+        <div class="card Black" data-card="2"></div>
+        <div class="card Black" data-card="3"></div>
+        <div class="card Black" data-card="4"></div>
+        <div class="card Black" data-card="5"></div>
+
+
+        <div class="card Black" data-card="1"></div>
+        <div class="card Black" data-card="2"></div>
+        <div class="card Black" data-card="3"></div>
+        <div class="card Black" data-card="4"></div>
+        <div class="card Black" data-card="5"></div>
+
+    </div>
+
+   <script>
+
+    let cards2= $(".card")
+
+    let isFirst=false;
+    let score=0;
+    let fCard;
+    let sCard;
+    let isAnimated=true;
+    let size=10;
+    $(".card").click(function(){
+        if(isAnimated){
+        $(this).toggleClass("flip2");
+        if(!isFirst){
+            fCard=$(this);
+            $(this).toggleClass("Black"); 
+            isFirst=true;
+        }
+        else{
+            sCard=$(this);
+            $(this).toggleClass("Black");
+            isAnimated=false;
+            setTimeout(function() {
+                CheckCards();
+            }, 1000);
+            isFirst=false;
+            
+        }
+        }
+    })
+
+
+    function CheckCards(){
+        if(fCard[0].id==sCard[0].id){
+            score++;
+            fCard.toggleClass('tCard flip');
+            sCard.toggleClass('tCard flip');
+            CheckForWin();
+        }
+        else{
+            Clear();
+            score=0;
+        }
+        isAnimated=true;
+    }
+
+    function Clear(){
+        let $c = $(".card");
+            $c.not(".Black").toggleClass("Black");
+            $c.removeClass("tCard")
+            $c.removeClass("flip")
+            $c.removeClass("flip2")
+    }
+
+    Generate();
+    function CheckForWin() {
+        if(score==size/2){
+            if(confirm("You win! Restart")){
+                Clear();
+                Generate();
+            }
+        }
+    }
+
+    
+    
+
+    function Generate(){
+        let imges=[1,2,3,4,5,6,7];
+        let cards= $(".card").toArray();
+        for(let i=0;i<5;i++){
+           let img=getRandomNumber(1,imges.length-1);
+          
+           let card1=getRandomNumber(0,cards.length-1);
+           cards[card1].style.backgroundImage=(`url('img/${imges[img]}.png')`)
+           cards[card1].id=`F${imges[img]}`
+           cards.splice(card1,1)
+           let card2=getRandomNumber(0,cards.length-1);
+           cards[card2].style.backgroundImage=(`url('img/${imges[img]}.png')`)
+           cards[card2].id=`F${imges[img]}`
+           cards.splice(card2,1)
+           imges.splice(img,1);
+        }
+    }
+
+    function getRandomNumber(min, max) {
+        
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+   </script>
+</body>
+</html>
