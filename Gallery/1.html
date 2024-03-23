@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<script src="jquery-3.7.0.min.js"></script>
+<style>
+    body{
+        background-color: aliceblue;
+    }
+    .wrap{
+        margin-top: 50px !important;
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        margin: auto;
+    }
+    .bigImg{
+        display: flex;
+        width: 500px;
+        height: auto ;
+        align-self: center;
+    }
+    .box{
+        display: flex;
+        width: 500px;
+        height: 330px;
+       
+        align-self: center;
+       
+    }
+    .bigPic{
+        width: 1000px ;
+        height: auto !important;
+        margin:auto;
+    }
+    .none{
+        display: none !important;
+    }
+
+
+    .smallWrap{
+        display: flex;
+        margin-top: 50px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .smallImg{
+        margin: 50px;
+        width: 250px;
+        height: auto;
+        background-color: rebeccapurple;
+       
+    }
+    .fix{
+        height: auto !important;   
+    }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <div class="box" id="bx">
+      <img src="" alt="" class="bigImg">
+    </div>
+    <div class="smallWrap">
+        <img src="" alt="" class="smallImg">
+        <img src="" alt="" class="smallImg">
+        <img src="" alt="" class="smallImg">
+        <img src="" alt="" class="smallImg">
+        <img src="" alt="" class="smallImg">
+        <img src="" alt="" class="smallImg">
+        
+    </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $(".bigImg").attr('src','img/1.jpg');
+    let smallImgs = $(".smallImg");
+    for (let i = 0; i < smallImgs.length; i++) {
+        smallImgs.eq(i).attr('src',`img/${i+2}.jpg`);
+    }
+});
+$(document).ready(function(){
+    $(".bigImg").attr('src','img/1.jpg');
+    let smallImgs = $(".smallImg");
+    for (let i = 0; i < smallImgs.length; i++) {
+        smallImgs.eq(i).attr('src',`img/${i+2}.jpg`);
+    }
+
+    $(".bigImg").on('mousemove', function(event){
+        var $this = $(this);
+        var offset = $this.offset();
+        var relX = event.pageX - offset.left;
+        var relY = event.pageY - offset.top;
+        var width = $this.width();
+        var height = $this.height();
+        var xPercent = relX / width * 100;
+        var yPercent = relY / height * 100;
+
+        var angleX = (xPercent - 50) / 5;
+        var angleY = (yPercent - 50) / 5;
+
+        $this.css('transform', 'perspective(1000px) rotateY(' + angleX + 'deg) rotateX(' + (-angleY) + 'deg) scale(1.1)');
+    }).on('mouseleave', function(){
+        $(this).css('transform', 'none');
+    });
+    $(".smallImg").on('mousemove', function(event){
+        var $this = $(this);
+        var offset = $this.offset();
+        var relX = event.pageX - offset.left;
+        var relY = event.pageY - offset.top;
+        var width = $this.width();
+        var height = $this.height();
+        var xPercent = relX / width * 100;
+        var yPercent = relY / height * 100;
+
+        var angleX = (xPercent - 50) / 5;
+        var angleY = (yPercent - 50) / 5;
+
+        $this.css('transform', 'perspective(1000px) rotateY(' + angleX + 'deg) rotateX(' + (-angleY) + 'deg) scale(1.1)');
+    }).on('mouseleave', function(){
+        $(this).css('transform', 'none');
+    });
+
+    let isAnimated=false;
+    $(".smallImg").click(function(){
+        if(!isAnimated){
+            isAnimated=true;
+            let $this=$(this);
+            let rem=$this.attr('src');
+        
+            $('.bigImg').slideUp(20);
+            $('.bigImg').attr('src',rem)
+            $('.bigImg').slideDown(2000);
+        setTimeout(() => {
+       
+            isAnimated=false;
+        }, 2000);
+           
+        }
+        
+       
+        
+    })
+
+    $(".bigImg").click(function(){
+        let $this=$(this);
+        $(this).toggleClass('bigPic')
+        $('.smallWrap').toggleClass('none')
+        $('#bx').toggleClass('box');
+        
+    })
+
+
+})
+</script>
+</body>
+</html>
