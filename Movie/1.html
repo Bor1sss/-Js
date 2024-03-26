@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery-3.7.0.js"></script>
+    <style>
+        body{
+            background-color: bisque;
+        }
+        .search{
+            width: 40%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid black;
+            padding: 25px
+        }
+        .input{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+           
+        }
+        select{
+            width: 150px;
+        }
+        input{
+            width: 150px;
+            height: 20px;
+        }
+        .movie:hover{
+            transform: scale(1.05);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .movie-container {
+            margin-top: 25px;
+        display: flex;
+        justify-content: space-between;
+        overflow: hidden;
+        }
+        .movie {
+            width: calc(33.33% - 10px);
+            margin-bottom: 20px;
+            border: 1px solid black;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .movie img {
+            max-width: 100px;
+            height: auto;
+            margin-right: 10px;
+        }
+        .movie h2 {
+            margin-top: 0;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        .controls button {
+            margin-right: 10px;
+        }
+        #full-info{
+            display: none;
+            width: 70%;
+            margin: auto;
+            padding: 25px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="bigPage">
+    <div class="search">
+        <h2>Search</h2>
+        <div class="input">
+            <p>
+                Title
+            </p>
+            <input id="Title" type="text">
+        </div>
+        <div class="input">
+            <p>
+                Type
+            </p>
+            <select id="Type">
+                <option value="movie">Фильм</option>
+                <option value="series">Сериал</option>
+              </select>
+        </div>
+        <button id="send">search</button>
+    </div>
+    <div id="movies" class="movie-container"></div>
+</div>
+    <div id="full-info" class="full-info"></div>
+    <div class="controls">
+      <button id="prev">Назад</button>
+      <button id="next">Вперёд</button>
+    </div>
+
+    <script>
+        class Film{
+            constructor(data) {
+        this.poster=data.Poster||'';
+        this.title = data.Title || '';
+        this.year = data.Year || '';
+        this.director = data.Director || '';
+        this.actors = data.Actors || '';
+        this.awards = data.Awards || '';
+        this.genre = data.Genre || '';
+        this.plot = data.Plot || '';
+        this.poster = data.Poster || '';
+        this.rated = data.Rated || '';
+        this.released = data.Released || '';
+        this.runtime = data.Runtime || '';
+        this.imdbRating = data.imdbRating || '';
+        this.imdbVotes = data.imdbVotes || '';
+        this.imdbID = data.imdbID || '';
+  }
+
+  displayInfo() {
+    console.log(`Title: ${this.title}`);
+    console.log(`Year: ${this.year}`);
+    console.log(`Director: ${this.director}`);
+    console.log(`Actors: ${this.actors}`);
+    console.log(`Awards: ${this.awards}`);
+    console.log(`Genre: ${this.genre}`);
+    console.log(`Plot: ${this.plot}`);
+    console.log(`Rated: ${this.rated}`);
+    console.log(`Released: ${this.released}`);
+    console.log(`Runtime: ${this.runtime}`);
+    console.log(`IMDb Rating: ${this.imdbRating}`);
+    console.log(`IMDb Votes: ${this.imdbVotes}`);
+    console.log(`IMDb ID: ${this.imdbID}`);
+
+  }
+
+
+        }
+        $('#send').click(SendRequest)
+        
+        let movies=[];
+        async function SendRequest(){
+            try {
+                let API= 'http://www.omdbapi.com/?i=tt3896198&apikey=16ddb8ac&'
+                let title = 's='+$('#Title').val()+`&Type=${$('#Type').val()}&plot=full`;
+                console.log(title)
+                API+=title;
+                console.log(API)
+            const response = await fetch(API);
+       
+            const responseJSON = await response.json();
+        
+            movies=[];
+            currentPage = 0;
+            responseJSON.Search.forEach(movieData => {
+                movie = new Film(movieData);
+                movies.push(movie);
+               
+            });
+            }
+            catch (error) {
+                console.log(error)
+            }
+            displayMovies();
+            
+     
+         }
+         async function SendFullRequest(movie){
+            try {
+                let API= 'http://www.omdbapi.com/?i=tt3896198&apikey=16ddb8ac&'
+                let title = 't='+movie.title
+                console.log(title)
+                API+=title;
+                console.log(API)
+                const response = await fetch(API);
+        
+                const responseJSON = await response.json();
+
+                movie = new Film(responseJSON);
+                showFullInfo(movie);
+
+               
+                    
+                }
+                catch (error) {
+                    console.log(error)
+                }
+               
+            
+     
+         }
+let currentPage = 0;
+
+const moviesPerPage = 3;
+
+
+function displayMovies() {
+    let $moviesDiv = $('#movies');
+ 
+    $moviesDiv.empty();
+
+    
+    let startIndex = currentPage * moviesPerPage;
+    let endIndex = Math.min(startIndex + moviesPerPage, movies.length);
+
+    for (let i = startIndex; i < endIndex; i++) {
+        let movie = movies[i];
+        let $movieDiv = $('<div>').addClass('movie');
+            $moviesDiv.click(function(){
+            SendFullRequest(movie);
+        })
+        let $posterImg = $('<img>').attr('src', movie.poster);
+        let $titleH2 = $('<h2>').text(movie.title);
+        let $yearP = $('<p>').text(`Год: ${movie.year}`);
+        $movieDiv.append($posterImg, $titleH2, $yearP);
+        $moviesDiv.append($movieDiv);
+    }
+}
+
+    $('#next').on('click', function() {
+        if(currentPage!=Math.min(0 + moviesPerPage, movies.length)){
+            currentPage++;
+        }
+        displayMovies();
+    });
+
+
+    $('#prev').on('click', function() {
+    
+        currentPage = Math.max(0, currentPage - 1);
+        displayMovies();
+    });
+
+    function showFullInfo(movie) {
+        $('.bigPage').css("display","none");
+        $('.controls').css("display","none")
+        $('#full-info').html(`
+            <div class="FullMovie">
+            <h2>${movie.title}</h2>
+            <p>Год: ${movie.year}</p>
+            <p>Режиссер: ${movie.director}</p>
+            <p>Описание: ${movie.plot}</p>
+            <img src="${movie.poster}" alt="${movie.title}">
+            <button id="back">Back</button>
+            </div>
+        `).show();
+        $("#back").click(function(){
+            $("#back").css("display","none");
+            $('.bigPage').css("display","block");
+            $('.controls').css("display","flex")
+            $(`#full-info`).css("display","none");
+        })
+    }
+    </script>
+
+</body>
+</html>
