@@ -6,7 +6,7 @@
     <title>Document</title>
     <script src="jquery-3.7.0.js"></script>
     <style>
-        body{
+   body{
             background-color: #f5f5f5;
             font-family: Arial, sans-serif;
             margin: 0;
@@ -188,8 +188,10 @@
     </div>
 
     <script type="module">
+
 import DOM from "./DOM.js";
 const API = await import("./API.js");
+
         let currentPage=0;
         let movies=[];
         $('#send').click(async function() {
